@@ -1,24 +1,17 @@
 ﻿using System.CommandLine;
 
 
-var fileOption = new Option<FileInfo?>(
-    name: "--file",
-    description: "select file"
-);
-
 var rootCommand = new RootCommand("Sample Application");
-rootCommand.AddOption(fileOption);
 
-rootCommand.SetHandler((file) =>
+rootCommand.SetHandler(async () =>
 {
-    ReadFile(file!);
-}, fileOption);
+    var versionInfo = await Mytyltyl.MytyltylFetcher.FetchServerVersion();
+    Console.WriteLine("CommandVersion:0.0.0");
+    Console.WriteLine($"ServerVersion:{versionInfo.FullVerison}");
+    Console.WriteLine($"StartedAt:{versionInfo.StartedAt}");
+
+});
 return await rootCommand.InvokeAsync(args);
 
 
 
-static void ReadFile(FileInfo file)
-{
-    File.ReadLines(file.FullName).ToList()
-    .ForEach(line => Console.WriteLine(line));
-}

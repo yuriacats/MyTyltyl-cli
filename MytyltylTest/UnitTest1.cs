@@ -1,12 +1,15 @@
 
 namespace MytyltylTest;
 using Mytyltyl;
+using MytyltylApi;
 
 public class UnitTest1
 {
     [Fact]
-    public void Test1()
+    public async void GetVersionTest()
     {
-        Assert.Equal(4, Ado.Add(2, 2));
+        var result = (await MytyltylFetcher.FetchServerVersion()).FullVerison;
+        Assert.NotEmpty(result);
+        Assert.Equal("0.0.0", result);
     }
 }
